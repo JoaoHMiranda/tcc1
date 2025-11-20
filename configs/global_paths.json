@@ -1,0 +1,29 @@
+{
+  "models_root": {
+    "value": "modelos/",
+    "description": "Raiz onde serão criadas subpastas por versão de modelo (ex.: modelos/yolo12n/)."
+  },
+  "dataset_pairs": {
+    "description": "Lista de pastas de entrada/saída que devem rodar o pipeline inteiro automaticamente.",
+    "value": [
+      {
+        "name": "doentes",
+        "input_root": "hsi_original/doentes/",
+        "output_root": "hsi_modificado/doentes/"
+      },
+      {
+        "name": "classificar",
+        "input_root": "hsi_original/classificar/",
+        "output_root": "hsi_modificado/classificar/"
+      }
+    ]
+  },
+  "output_root": {
+    "value": "hsi_modificado/doentes/",
+    "description": "Destino base padrão para as saídas das etapas (preprocessamento e selecao)."
+  },
+  "input_root": {
+    "value": "hsi_original/doentes/",
+    "description": "Pasta contendo as capturas ENVI (pode ser uma única pasta ou um diretório pai com subpastas)."
+  }
+}
