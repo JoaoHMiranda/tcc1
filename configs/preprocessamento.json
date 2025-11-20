@@ -4,7 +4,7 @@
     "description": "Define se o pipeline de pré-processamento deve rodar (false faz o script encerrar imediatamente)."
   },
   "cpu_workers": {
-    "value": 3,
+    "value": 8,
     "description": "Quantidade de threads de CPU para as operações numéricas/BLAS (OMP/MKL/OpenBLAS/OpenCV). Use null para automático."
   },
   "folder": {

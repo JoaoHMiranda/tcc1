@@ -241,19 +241,22 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
     }
     metadata_df = pd.DataFrame(metadata)
 
-    export_steps = int(bool(config.toggles.export_metadata))
-    if progress and export_steps:
+    export_steps = 3  # metadata CSV, image report CSV, summary TXT
+    if progress:
         progress.create_task("exports", "[green]Salvando relatórios", export_steps)
 
+    # band_metadata.csv
     if config.toggles.export_metadata:
         metadata_df.to_csv(os.path.join(out_base, "band_metadata.csv"), index=False)
-        advance_progress(progress, "exports")
+    advance_progress(progress, "exports")
 
+    # image_report.csv
     write_image_report(
         out_base=out_base,
         dataset=base,
         metadata_df=metadata_df,
     )
+    advance_progress(progress, "exports")
 
     timings["exportacao_relatorios"] = time.perf_counter() - stage_start
     timings["total"] = time.perf_counter() - total_start
@@ -268,6 +271,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
         images_per_variant=images_per_variant,
         pseudo_summary=pseudo_summary,
     )
+    advance_progress(progress, "exports")
 
     if progress:
         progress.advance("steps")

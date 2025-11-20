@@ -1,7 +1,7 @@
 {
   "description": "Configuração específica da etapa de seleção/redução de bandas.",
   "enabled": true,
-  "cpu_workers": 3,
+  "cpu_workers": 8,
   "cache_size_bands": 64,
   "trimming": {
     "description": "Bandas descartadas no começo/fim do espectro antes da seleção.",
