@@ -16,14 +16,22 @@
   "enhance_pseudo_rgb": false,
   "split": {
     "train": 0.7,
-    "val": 0.3,
-    "test": 0.0
+    "val": 0.2,
+    "test": 0.1
   },
   "augmentations": {
     "fliplr": 0.95,
     "flipud": 0.7,
     "degrees": 45.0,
     "crop": 0.2
+  },
+  "offline_augmentation": {
+    "enabled": true,
+    "target_total_images": 600,
+    "per_sample": 200,
+    "output_method": "pca_augmented",
+    "source_method": "pca",
+    "include_source": true
   },
   "train_extra_args": {
     "optimizer": "AdamW",

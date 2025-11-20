@@ -17,6 +17,7 @@ from hsi_pipeline.pipeline.cli import resolve_dataset_paths
 from hsi_pipeline.config import load_config_from_json
 from hsi_pipeline.data.paths import GlobalPathConfig, load_paths_config
 from hsi_pipeline.features.selection_runner import run_selection
+from hsi_pipeline.pipeline.cpu import configure_cpu_workers
 
 DEFAULT_CONFIG = ROOT / "configs" / "selecao.json"
 DEFAULT_PATHS = ROOT / "configs" / "global_paths.json"
@@ -77,6 +78,9 @@ def main(argv: list[str] | None = None):
     parser = build_parser()
     args = parser.parse_args(argv)
     config = load_config_from_json(args.config)
+    configured = configure_cpu_workers(getattr(config, "cpu_workers", None))
+    if configured:
+        print(f"[info] Limitando threads de CPU para {configured}.")
     paths = load_paths_config(args.paths)
     if not getattr(config, "enabled", True):
         print("[skip] Seleção desativada via config.enabled=false.")

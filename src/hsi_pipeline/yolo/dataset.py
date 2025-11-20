@@ -6,7 +6,7 @@ import csv
 import os
 import shutil
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence, Set
 
 import numpy as np
 
@@ -74,8 +74,27 @@ def collect_records(
     for dataset_dir in datasets:
         pseudo_root = dataset_dir / config.pseudo_root
         method_dirs: List[tuple[Path, Path, Optional[str]]] = []
-        # Apenas um modo ativo: PCA puro.
-        method_dirs.append((pseudo_root / config.pseudo_method, pseudo_root, None))
+        seen_method_dirs: Set[Path] = set()
+        primary_method = config.pseudo_method
+        offline_aug = getattr(config, "offline_augmentation", None)
+        if offline_aug and offline_aug.enabled:
+            aug_method = offline_aug.output_method or primary_method
+            if aug_method:
+                aug_dir = pseudo_root / aug_method
+                method_dirs.append((aug_dir, pseudo_root, None))
+                seen_method_dirs.add(aug_dir)
+            if offline_aug.include_source:
+                source_method = offline_aug.source_method or primary_method
+                if source_method:
+                    src_dir = pseudo_root / source_method
+                    if src_dir not in seen_method_dirs:
+                        method_dirs.append((src_dir, pseudo_root, None))
+                        seen_method_dirs.add(src_dir)
+        if primary_method:
+            base_dir = pseudo_root / primary_method
+            if base_dir not in seen_method_dirs:
+                method_dirs.append((base_dir, pseudo_root, None))
+                seen_method_dirs.add(base_dir)
         seen_paths = set()
         for method_dir, method_root, forced_split in method_dirs:
             if not method_dir.exists():

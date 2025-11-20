@@ -35,11 +35,14 @@ def run_reflectance_msc_stage(
     a_map_reflectance: np.ndarray,
     b_map_reflectance: np.ndarray,
     progress: Optional["PipelineProgress"] = None,
+    step_task: Optional[str] = None,
 ) -> int:
     """Generates MSC variants based on raw reflectance bands."""
 
     variant_enabled = bool(variant_dir and variant_setting and variant_setting.plot)
     if not variant_enabled:
+        if step_task:
+            advance_progress(progress, step_task)
         return 0
 
     images_generated = 0
@@ -55,6 +58,8 @@ def run_reflectance_msc_stage(
         )
         advance_progress(progress, "variants")
         images_generated += 1
+        if step_task:
+            advance_progress(progress, step_task)
     return images_generated
 
 
@@ -67,6 +72,7 @@ def run_snv_msc_stage(
     variant_dir: Optional[str],
     variant_setting: Optional["VariantOutputSettings"],
     progress: Optional["PipelineProgress"] = None,
+    step_task: Optional[str] = None,
 ) -> MSCResult:
     """Applies MSC on top of SNV-normalized bands."""
 
@@ -109,5 +115,7 @@ def run_snv_msc_stage(
             )
             advance_progress(progress, "variants")
             images_generated += 1
+        if step_task:
+            advance_progress(progress, step_task)
 
     return MSCResult(snv_msc_cache, a_map_SNV, b_map_SNV, images_generated)

@@ -6,7 +6,7 @@ import os
 import time
 from dataclasses import asdict
 from pathlib import Path
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Dict, List, Optional, Tuple, TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
@@ -87,6 +87,22 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
     active_variants = [
         key for key in VARIANT_ORDER if variant_dirs[key] and variant_settings[key].plot
     ]
+    msc_variant_enabled = bool(
+        variant_dirs.get("correcao_msc") and variant_settings["correcao_msc"].plot
+    )
+    total_steps = (
+        1  # descoberta
+        + Bk  # correcao
+        + Bk  # snv
+        + (Bk if msc_variant_enabled else 1)  # msc imagens (ou passo único)
+        + Bk  # snv_msc
+        + 1  # selecao
+        + 1  # pseudo
+        + 1  # relatorios
+    )
+    if progress:
+        progress.create_task("steps", "[cyan]Pré-processamento", total_steps)
+        progress.advance("steps")  # descoberta já concluída
     if progress and active_variants:
         progress.create_task(
             "variants",
@@ -104,6 +120,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
         variant_dirs.get("correcao"),
         variant_settings.get("correcao"),
         progress,
+        step_task="steps",
     )
     images_per_variant["correcao"] = correcao_result.images_generated
 
@@ -118,6 +135,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
         variant_dirs.get("correcao_snv"),
         variant_settings.get("correcao_snv"),
         progress,
+        step_task="steps",
     )
     images_per_variant["correcao_snv"] = snv_result.images_generated
 
@@ -131,6 +149,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
         snv_result.a_map_reflectance,
         snv_result.b_map_reflectance,
         progress,
+        step_task="steps",
     )
 
     msc_result = run_snv_msc_stage(
@@ -142,6 +161,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
         variant_dirs.get("correcao_snv_msc"),
         variant_settings.get("correcao_snv_msc"),
         progress,
+        step_task="steps",
     )
     snv_msc_cache = msc_result.snv_msc_cache
     images_per_variant["correcao_snv_msc"] = msc_result.images_snv_msc
@@ -167,6 +187,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
             radius=rg_sel,
             out_dir=selection_dir,
             dataset_name=base,
+            progress=progress,
         )
         selected_indices = selection_summary.get("selected_band_indices") or []
         selected_indices = sorted({idx for idx in selected_indices if 0 <= idx < len(kept)})
@@ -181,6 +202,8 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
             Bk = len(kept)
     else:
         selection_summary = None
+    if progress:
+        progress.advance("steps")
 
     pseudo_summary: Optional[Dict[str, object]] = None
     pca_rgb_path: Optional[Path] = None
@@ -205,6 +228,8 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
         timings["pseudo_rgb"] = time.perf_counter() - pseudo_start
     else:
         timings["pseudo_rgb"] = 0.0
+    if progress:
+        progress.advance("steps")
 
     stage_start = time.perf_counter()
 
@@ -245,6 +270,7 @@ def process_folder(config: PipelineConfig, progress: Optional["PipelineProgress"
     )
 
     if progress:
+        progress.advance("steps")
         progress.log(
             f"Concluído: H={H} W={W} B_total={B} → B_kept={Bk} | saída: {out_base}",
             style="green",

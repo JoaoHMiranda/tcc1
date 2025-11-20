@@ -36,6 +36,7 @@ def run_snv_stage(
     variant_dir: Optional[str],
     variant_setting: Optional["VariantOutputSettings"],
     progress: Optional["PipelineProgress"] = None,
+    step_task: Optional[str] = None,
 ) -> SNVResult:
     """Runs the SNV normalization and optional visualization export."""
 
@@ -77,6 +78,8 @@ def run_snv_stage(
             advance_progress(progress, "variants")
             images_generated += 1
         snv_band_sums[idx] = float(snv.sum())
+        if step_task:
+            advance_progress(progress, step_task)
 
     b_map_R = Dacc_R / denom_ref
     b_map_R[np.abs(b_map_R) < 1e-6] = 1e-6

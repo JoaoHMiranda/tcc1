@@ -11,6 +11,7 @@ from ...pipeline.progress import PipelineProgress
 from ...tools.restore_doentes_labels import restore_doentes_labels
 from .. import dataset
 from ..fs_utils import next_available_path
+from ..offline_augmentation import run_offline_augmentations
 
 
 @dataclass
@@ -38,6 +39,10 @@ def prepare_dataset_stage(config: YoloTrainingConfig, progress: PipelineProgress
     log_progress(progress, "Descobrindo datasets", style="cyan")
     datasets = dataset.discover_datasets(out_root, config)
     log_progress(progress, f"{len(datasets)} dataset(s) encontrados.", style="cyan")
+
+    if getattr(config, "offline_augmentation", None) and config.offline_augmentation.enabled:
+        log_progress(progress, "Gerando imagens sintéticas offline", style="yellow")
+        run_offline_augmentations(config, datasets, progress)
 
     # As amostras de "doentes" não trazem labels por padrão.
     if out_root.name.lower() == "doentes":

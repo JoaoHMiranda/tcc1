@@ -1,6 +1,7 @@
 {
   "description": "Configuração específica da etapa de seleção/redução de bandas.",
   "enabled": true,
+  "cpu_workers": 3,
   "cache_size_bands": 64,
   "trimming": {
     "description": "Bandas descartadas no começo/fim do espectro antes da seleção.",
@@ -10,8 +11,8 @@
   "band_selection": {
     "enabled": true,
     "active_method": "random_forest",
-    "top_k_bands": 40,
-    "sample_pixels_per_class": 1200,
+    "top_k_bands": 80,
+    "sample_pixels_per_class": 12000,
     "min_pixels_per_class": 60,
     "roi_radius_scale": 0.9,
     "inner_background_scale": 1.05,

@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 from ..config import PipelineConfig, load_config_from_json
+from .cpu import configure_cpu_workers
 from .pipeline import process_folder
 from .progress import PipelineProgress
 
@@ -58,13 +59,22 @@ def run_preprocess(config: PipelineConfig):
     if not getattr(config, "enabled", True):
         print("[skip] Pré-processamento desativado (config.enabled=false).")
         return
+    configured = configure_cpu_workers(getattr(config, "cpu_workers", None))
+    if configured:
+        print(f"[info] Limitando threads de CPU para {configured}.")
     datasets = list(resolve_dataset_paths(config.folder))
     with PipelineProgress() as progress:
+        progress.create_task(
+            "preprocess",
+            f"[cyan]Pré-processando {len(datasets)} conjunto(s)",
+            len(datasets),
+        )
         for idx, dataset in enumerate(datasets, start=1):
             progress.start_dataset(dataset.name, idx, len(datasets))
             current_cfg = replace(config, folder=str(dataset))
             progress.log(f"Iniciando processamento em {dataset}", style="yellow")
             process_folder(current_cfg, progress=progress)
+            progress.advance("preprocess")
 
 
 def main(argv: Sequence[str] | None = None):

@@ -12,6 +12,10 @@ from ultralytics import YOLO
 from .config import ClassificationConfig
 from .datasets import discover_samples
 from .reporting import write_csv_reports, write_text_report
+try:
+    from ..pipeline.progress import PipelineProgress  # type: ignore
+except Exception:  # pragma: no cover
+    PipelineProgress = None  # type: ignore
 
 
 @dataclass
@@ -37,6 +41,7 @@ def run_classification_inference(
     imgsz: int | None = None,
     device: str | None = None,
     project_root: Path | None = None,
+    progress: "PipelineProgress | None" = None,
 ) -> List[SampleInferenceResult]:
     project_root = project_root or Path.cwd()
     model = resolve_cli_path(model_path, config.model)
@@ -52,11 +57,24 @@ def run_classification_inference(
         raise FileNotFoundError(f"Modelo não encontrado: {model}")
 
     samples = discover_samples(source)
+    total_samples = len(samples)
+    if progress:
+        progress.log(
+            f"Inferindo {total_samples} amostra(s) a partir de {source} -> {output}",
+            style="cyan",
+        )
+        progress.create_task(
+            "classification",
+            f"[blue]Classificação YOLO em {total_samples} amostra(s)",
+            total_samples or 1,
+        )
     model_instance = YOLO(model)
     outputs: List[SampleInferenceResult] = []
     for sample_name, files in samples.items():
         sample_out = output / sample_name
         sample_out.mkdir(parents=True, exist_ok=True)
+        if progress:
+            progress.log(f"Processando {sample_name} ({len(files)} arquivo[s])", style="white")
         results = model_instance.predict(
             source=[str(f) for f in files],
             project=str(sample_out),
@@ -78,6 +96,8 @@ def run_classification_inference(
                 report_txt=report_txt,
             )
         )
+        if progress:
+            progress.advance("classification")
     return outputs
 
 

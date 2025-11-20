@@ -55,7 +55,7 @@ def prepare_reflectance_stack(
     return reflectance_cache, kept, wavs_kept, (H, W)
 
 
-def run_selection_for_dataset(config: PipelineConfig, dataset_folder: Path) -> str:
+def run_selection_for_dataset(config: PipelineConfig, dataset_folder: Path, progress=None) -> str:
     folder = str(dataset_folder)
     out_base, _, base = resolve_out_base(folder, config.out_root)
     reflectance_cache, kept, wavs_kept, shape = prepare_reflectance_stack(config, folder)
@@ -74,6 +74,7 @@ def run_selection_for_dataset(config: PipelineConfig, dataset_folder: Path) -> s
         radius=radius,
         out_dir=selection_dir,
         dataset_name=base,
+        progress=progress,
     )
     return selection_dir
 
@@ -90,11 +91,17 @@ def run_selection(config: PipelineConfig, dataset_paths: Sequence[Path]) -> None
         print("[warn] Nenhum dataset para executar a seleção.")
         return
     with PipelineProgress() as progress:
+        progress.create_task(
+            "selection",
+            f"[cyan]Selecionando bandas em {len(datasets)} conjunto(s)",
+            len(datasets),
+        )
         for idx, dataset in enumerate(datasets, start=1):
             progress.start_dataset(dataset.name, idx, len(datasets))
             progress.log(f"Iniciando seleção em {dataset}", style="cyan")
-            run_selection_for_dataset(config, dataset)
+            run_selection_for_dataset(config, dataset, progress=progress)
             progress.log(f"[ok] Finalizado: {dataset}", style="green")
+            progress.advance("selection")
 
 
 __all__ = [

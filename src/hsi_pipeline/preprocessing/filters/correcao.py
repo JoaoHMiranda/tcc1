@@ -34,6 +34,7 @@ def run_correcao_stage(
     variant_dir: Optional[str],
     variant_setting: Optional["VariantOutputSettings"],
     progress: Optional["PipelineProgress"] = None,
+    step_task: Optional[str] = None,
 ) -> CorrecaoResult:
     """Computes reflectance bands and optionally saves RGB composites."""
 
@@ -60,6 +61,8 @@ def run_correcao_stage(
             )
             advance_progress(progress, "variants")
             images_generated += 1
+        if step_task:
+            advance_progress(progress, step_task)
         sum_px += Rb
         sum_sq_px += Rb * Rb
         band_sums[idx] = float(Rb.sum())

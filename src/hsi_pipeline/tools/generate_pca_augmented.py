@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SOURCE = ROOT / "hsi_modificado" / "doentes"
 DEFAULT_OUTPUT_METHOD = "pca_augmented"
 N_PER_SAMPLE = 100  # número de imagens a gerar por amostra (inclui 90/180/270 + flips aleatórios)
+DEFAULT_SOURCE_METHOD = "pca"
+DEFAULT_BASE_NAME = "pca_rgb"
 
 
 def load_labels(label_path: Path) -> List[Tuple[int, float, float, float, float]]:
@@ -85,11 +87,18 @@ def random_color_jitter(img: Image.Image) -> Image.Image:
     return contrast
 
 
-def augment_sample(sample_dir: Path, output_method: str, n_per_sample: int) -> int:
-    pca_img = sample_dir / "pseudo_rgb" / "pca" / "pca_rgb.png"
+def augment_sample(
+    sample_dir: Path,
+    output_method: str,
+    n_per_sample: int,
+    source_method: str = DEFAULT_SOURCE_METHOD,
+    base_name: str = DEFAULT_BASE_NAME,
+) -> int:
+    pseudo_dir = sample_dir / "pseudo_rgb" / source_method
+    pca_img = pseudo_dir / f"{base_name}.png"
     label_candidates = [
-        sample_dir / "pseudo_rgb" / "pca" / "pca_rgb.txt",
-        sample_dir / "_auto_labels" / "pca" / "pca_rgb.txt",
+        pseudo_dir / f"{base_name}.txt",
+        sample_dir / "_auto_labels" / source_method / f"{base_name}.txt",
     ]
     label_path = next((p for p in label_candidates if p.exists()), None)
     if not pca_img.exists() or label_path is None:
@@ -99,7 +108,6 @@ def augment_sample(sample_dir: Path, output_method: str, n_per_sample: int) -> i
     out_dir = sample_dir / "pseudo_rgb" / output_method
     out_dir.mkdir(parents=True, exist_ok=True)
     generated = 0
-    base_name = "pca_rgb"
     # Sempre gera versões padrão: 0, 90, 180, 270 e flips combinados.
     angles = [0, 90, 180, 270]
     flips = [(False, False), (True, False), (False, True), (True, True)]
@@ -123,6 +131,8 @@ def main():
     parser.add_argument("--source", default=str(DEFAULT_SOURCE), help="Raiz das amostras pré-processadas (pseudo_rgb/pca).")
     parser.add_argument("--method", default=DEFAULT_OUTPUT_METHOD, help="Nome da subpasta onde salvar os augments (pseudo_rgb/<method>).")
     parser.add_argument("--per_sample", type=int, default=N_PER_SAMPLE, help="Quantidade de imagens geradas por amostra.")
+    parser.add_argument("--source-method", default=DEFAULT_SOURCE_METHOD, help="Subpasta de origem dentro de pseudo_rgb (ex.: pca).")
+    parser.add_argument("--base-name", default=DEFAULT_BASE_NAME, help="Prefixo dos arquivos de imagem/label usados como base.")
     args = parser.parse_args()
 
     source_root = Path(args.source).expanduser().resolve()
@@ -131,7 +141,7 @@ def main():
     for sample_dir in sorted(source_root.glob("*")):
         if not sample_dir.is_dir():
             continue
-        n = augment_sample(sample_dir, args.method, args.per_sample)
+        n = augment_sample(sample_dir, args.method, args.per_sample, args.source_method, args.base_name)
         if n > 0:
             count_samples += 1
             total += n

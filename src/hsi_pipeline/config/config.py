@@ -110,6 +110,16 @@ def default_export_formats():
 
 
 @dataclass
+class OfflineAugmentationConfig:
+    enabled: bool = False
+    target_total_images: Optional[int] = None
+    per_sample: int = 100
+    output_method: str = "pca_augmented"
+    source_method: Optional[str] = None
+    include_source: bool = True
+
+
+@dataclass
 class YoloAugmentationConfig:
     fliplr: float = 0.5
     flipud: float = 0.2
@@ -149,6 +159,7 @@ class YoloTrainingConfig:
     clean_output: bool = True
     train_extra_args: Dict[str, Any] = field(default_factory=dict)
     augmentations: YoloAugmentationConfig = field(default_factory=YoloAugmentationConfig)
+    offline_augmentation: OfflineAugmentationConfig = field(default_factory=OfflineAugmentationConfig)
     export_formats: Sequence[str] = field(default_factory=default_export_formats)
 
 
@@ -241,6 +252,7 @@ class PipelineConfig:
     folder: str = "/home/joaoh/programacao/TCC1/minha/ATCC27_240506-161129"
     out_root: Optional[str] = None
     enabled: bool = True
+    cpu_workers: Optional[int] = None
     delta_bands: int = 1
     cache_size_bands: int = 64
     trimming: TrimConfig = field(default_factory=TrimConfig)
@@ -280,6 +292,7 @@ def load_config_from_mapping(data: Dict[str, Any]) -> PipelineConfig:
     base.folder = trimmed.get("folder", base.folder)
     base.out_root = trimmed.get("out_root", base.out_root)
     base.enabled = trimmed.get("enabled", base.enabled)
+    base.cpu_workers = trimmed.get("cpu_workers", base.cpu_workers)
     base.delta_bands = trimmed.get("delta_bands", base.delta_bands)
     base.cache_size_bands = trimmed.get("cache_size_bands", base.cache_size_bands)
 
@@ -427,6 +440,7 @@ def load_yolo_training_config_from_json(path: Union[str, Path]) -> YoloTrainingC
         base.split = update_dataclass(DatasetSplitConfig(), split_cfg)
     train_args = trimmed.pop("train_extra_args", None)
     aug_cfg = trimmed.pop("augmentations", None)
+    offline_aug_cfg = trimmed.pop("offline_augmentation", None)
     export_formats = trimmed.pop("export_formats", None)
     classes = trimmed.get("classes")
     datasets = trimmed.get("datasets")
@@ -439,6 +453,8 @@ def load_yolo_training_config_from_json(path: Union[str, Path]) -> YoloTrainingC
         base.train_extra_args = train_args
     if isinstance(aug_cfg, dict):
         base.augmentations = update_dataclass(YoloAugmentationConfig(), aug_cfg)
+    if isinstance(offline_aug_cfg, dict):
+        base.offline_augmentation = update_dataclass(OfflineAugmentationConfig(), offline_aug_cfg)
     if export_formats is not None:
         base.export_formats = list(export_formats)
     return base
@@ -456,6 +472,7 @@ __all__ = [
     "PCAPseudoRGBConfig",
     "LinearComboConfig",
     "DatasetSplitConfig",
+    "OfflineAugmentationConfig",
     "YoloAugmentationConfig",
     "YoloTrainingConfig",
     "AnovaSelectionSettings",
