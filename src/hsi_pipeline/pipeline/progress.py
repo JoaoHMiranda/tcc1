@@ -29,7 +29,7 @@ class PipelineProgress:
                 "progress.data": "bold cyan",
             }
         )
-        self.console = console or Console(theme=custom_theme)
+        self.console = console or Console(theme=custom_theme, log_time=False, log_path=False, force_terminal=True)
         self.progress = Progress(
             SpinnerColumn(style="bold cyan", speed=0.8),
             TextColumn("[bold white]{task.description}", justify="left"),
@@ -43,9 +43,10 @@ class PipelineProgress:
             MofNCompleteColumn(),
             TimeElapsedColumn(),
             TimeRemainingColumn(),
-            refresh_per_second=24,
+            refresh_per_second=10,
             console=self.console,
             transient=False,
+            expand=True,
         )
         self._tasks: Dict[str, int] = {}
 
@@ -56,12 +57,24 @@ class PipelineProgress:
     def __exit__(self, exc_type, exc, tb):
         self.progress.stop()
 
+    def _clear_tasks(self) -> None:
+        for task_id in list(self._tasks.values()):
+            try:
+                self.progress.remove_task(task_id)
+            except KeyError:
+                pass
+        self._tasks.clear()
+
     def start_dataset(self, name: str, index: int, total: int) -> None:
+        self._clear_tasks()
         header = f"[title]Dataset {index}/{total}: [accent]{name}"
         self.console.rule(header, style="cyan")
 
     def log(self, message: str, style: str = "green") -> None:
-        self.console.log(f"[{style}]{message}")
+        try:
+            self.progress.log(f"[{style}]{message}")
+        except Exception:
+            self.console.log(f"[{style}]{message}")
 
     def create_task(self, key: str, description: str, total: Optional[int]) -> None:
         total_value = None if total is None or total <= 0 else total
@@ -78,7 +91,12 @@ class PipelineProgress:
         task_id = self._tasks.get(key)
         if task_id is None:
             return
-        total = self.progress.tasks[task_id].total
+        try:
+            total = self.progress.tasks[task_id].total
+        except IndexError:
+            # Task was already removed/invalid; clean up and return gracefully.
+            self._tasks.pop(key, None)
+            return
         if total is not None:
             self.progress.update(task_id, completed=total)
         else:
