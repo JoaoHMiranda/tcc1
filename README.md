@@ -143,6 +143,7 @@ Esses scripts chamam funções em `src/hsi_pipeline/interface/`, o que permite r
 - `out_root`, `training_root`, `models_root`: caminhos principais.  
 - `annotations_root`, `pseudo_root`, `pseudo_method`: localização das labels e pseudo-RGB.  
 - `split.train/val/test`: frações do dataset.  
+- `patience`: número de épocas sem melhora até o early stopping interromper o treino.  
 - `augmentations`: `fliplr`, `flipud`, `degrees`, etc.  
 - `export_formats`: onnx, torchscript, openvino, coreml, engine (TensorRT).  
 - `missing_label_policy`: `skip` ou `raise`.  

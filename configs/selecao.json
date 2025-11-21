@@ -2,18 +2,18 @@
   "description": "Configuração específica da etapa de seleção/redução de bandas.",
   "enabled": true,
   "cpu_workers": 8,
-  "cache_size_bands": 64,
+  "cache_size_bands": 32,
   "trimming": {
     "description": "Bandas descartadas no começo/fim do espectro antes da seleção.",
-    "left": 20,
-    "right": 20
+    "left": 10,
+    "right": 10
   },
   "band_selection": {
     "enabled": true,
     "active_method": "random_forest",
-    "top_k_bands": 80,
-    "sample_pixels_per_class": 12000,
-    "min_pixels_per_class": 60,
+    "top_k_bands": 20,
+    "sample_pixels_per_class": 120000,
+    "min_pixels_per_class": 10,
     "roi_radius_scale": 0.9,
     "inner_background_scale": 1.05,
     "outer_background_scale": 1.35,
@@ -21,7 +21,7 @@
     "methods": {
       "random_forest": {
         "enabled": true,
-        "n_estimators": 10000,
+        "n_estimators": 1000,
         "max_features": "sqrt",
         "n_jobs": 3,
         "class_weight": null,
