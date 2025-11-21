@@ -1,6 +1,6 @@
 {
   "enabled": true,
-  "out_root": "hsi_modificado/doentes/",
+  "out_root": "hsi_modificado",
   "training_root": "train-yolo",
   "model": "train-yolo/yolo12x.pt",
   "pseudo_root": "pseudo_rgb",
@@ -8,13 +8,13 @@
   "annotations_root": "annotations/yolo12",
   "datasets": ["doentes"],
   "classes": ["staphylococcus"],
-  "imgsz": 1280,
-  "epochs": 1000,
-  "patience": 100,
-  "batch": 32,
+  "imgsz": 256,
+  "epochs": 200,
+  "patience": 50,
+  "batch": 16,
   "device": "0",
   "run_validation": true,
-  "enhance_pseudo_rgb": false,
+  "enhance_pseudo_rgb": true,
   "split": {
     "train": 0.7,
     "val": 0.2,
@@ -42,7 +42,7 @@
     "warmup_epochs": 10,
     "multi_scale": false,
     "cos_lr": true,
-    "workers": 2
+    "workers": 1
   },
   "export_formats": ["onnx", "torchscript", "openvino", "coreml", "engine"]
 }

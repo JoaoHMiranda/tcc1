@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import List, Sequence
 
@@ -12,6 +13,7 @@ from ultralytics import YOLO
 from .config import ClassificationConfig
 from .datasets import discover_samples
 from .reporting import write_csv_reports, write_text_report
+from ..yolo.fs_utils import next_available_path
 try:
     from ..pipeline.progress import PipelineProgress  # type: ignore
 except Exception:  # pragma: no cover
@@ -48,6 +50,9 @@ def run_classification_inference(
     source = resolve_cli_path(source_root, config.source_root)
     output = resolve_cli_path(output_root, config.output_root)
     output.mkdir(parents=True, exist_ok=True)
+    run_base = f"{model.stem}_{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    run_root = next_available_path(output / run_base)
+    run_root.mkdir(parents=True, exist_ok=True)
     imgsz_value = int(imgsz or config.imgsz)
     device_value = device if device is not None else config.device
 
@@ -60,7 +65,7 @@ def run_classification_inference(
     total_samples = len(samples)
     if progress:
         progress.log(
-            f"Inferindo {total_samples} amostra(s) a partir de {source} -> {output}",
+            f"Inferindo {total_samples} amostra(s) a partir de {source} -> {run_root}",
             style="cyan",
         )
         progress.create_task(
@@ -71,7 +76,7 @@ def run_classification_inference(
     model_instance = YOLO(model)
     outputs: List[SampleInferenceResult] = []
     for sample_name, files in samples.items():
-        sample_out = output / sample_name
+        sample_out = run_root / sample_name
         sample_out.mkdir(parents=True, exist_ok=True)
         if progress:
             progress.log(f"Processando {sample_name} ({len(files)} arquivo[s])", style="white")

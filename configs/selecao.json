@@ -21,7 +21,7 @@
     "methods": {
       "random_forest": {
         "enabled": true,
-        "n_estimators": 1000,
+        "n_estimators": 100,
         "max_features": "sqrt",
         "n_jobs": 3,
         "class_weight": null,
