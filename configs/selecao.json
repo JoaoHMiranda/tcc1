@@ -12,7 +12,7 @@
     "enabled": true,
     "active_method": "random_forest",
     "top_k_bands": 20,
-    "sample_pixels_per_class": 120000,
+    "sample_pixels_per_class": 1200,
     "min_pixels_per_class": 10,
     "roi_radius_scale": 0.9,
     "inner_background_scale": 1.05,
