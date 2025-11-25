@@ -1,0 +1,12 @@
+Dataset: ATCC27_240506-161129
+Pasta origem: /home/joaoh/programacao/TCC1/hsi_original/doentes/ATCC27_240506-161129
+Saída: hsi_modificado/doentes/ATCC27_240506-161129
+
+Tempo por etapa:
+- Descoberta e memmap: 0.00 s
+- Geração de variações: 6.21 s
+- Exportação de relatórios: 0.01 s
+- Tempo total: 6.22 s
+
+Imagens geradas por variação:
+- correcao_snv_msc: 236

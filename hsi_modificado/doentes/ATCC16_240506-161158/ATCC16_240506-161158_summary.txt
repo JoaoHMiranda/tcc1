@@ -1,0 +1,12 @@
+Dataset: ATCC16_240506-161158
+Pasta origem: /home/joaoh/programacao/TCC1/hsi_original/doentes/ATCC16_240506-161158
+Saída: hsi_modificado/doentes/ATCC16_240506-161158
+
+Tempo por etapa:
+- Descoberta e memmap: 0.00 s
+- Geração de variações: 5.17 s
+- Exportação de relatórios: 0.01 s
+- Tempo total: 5.18 s
+
+Imagens geradas por variação:
+- correcao_snv_msc: 236

@@ -1,0 +1,12 @@
+Dataset: 351_1_240506-160920
+Pasta origem: /home/joaoh/programacao/TCC1/hsi_original/classificar/351_1_240506-160920
+Saída: hsi_modificado/classificar/351_1_240506-160920
+
+Tempo por etapa:
+- Descoberta e memmap: 0.00 s
+- Geração de variações: 3.46 s
+- Exportação de relatórios: 0.01 s
+- Tempo total: 3.47 s
+
+Imagens geradas por variação:
+- correcao_snv_msc: 236

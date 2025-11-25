@@ -1,0 +1,12 @@
+Dataset: ATCC13_240506-161053
+Pasta origem: /home/joaoh/programacao/TCC1/hsi_original/doentes/ATCC13_240506-161053
+Saída: hsi_modificado/doentes/ATCC13_240506-161053
+
+Tempo por etapa:
+- Descoberta e memmap: 0.00 s
+- Geração de variações: 7.52 s
+- Exportação de relatórios: 0.01 s
+- Tempo total: 7.53 s
+
+Imagens geradas por variação:
+- correcao_snv_msc: 236

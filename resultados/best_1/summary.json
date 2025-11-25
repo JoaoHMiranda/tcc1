@@ -1,0 +1,178 @@
+{
+  "model": "/home/joaoh/programacao/TCC1/yolo/modelos/yolo12x_1/best.pt",
+  "source_root": "/home/joaoh/programacao/TCC1/hsi_modificado/classificar",
+  "run_dir": "/home/joaoh/programacao/TCC1/resultados/best_1",
+  "total_images": 3776,
+  "images_with_detection": 3483,
+  "prob_mean": 0.8447888916895047,
+  "prob_min": 0.0,
+  "prob_max": 0.973127007484436,
+  "sample_summary_csv": "/home/joaoh/programacao/TCC1/resultados/best_1/sample_summary.csv",
+  "detections_csv": "/home/joaoh/programacao/TCC1/resultados/best_1/detections.csv",
+  "summary_csv": "/home/joaoh/programacao/TCC1/resultados/best_1/summary.csv",
+  "samples": [
+    {
+      "sample": "3491B_240506-155911",
+      "images": 236,
+      "prob_mean": 0.9401111069877269,
+      "prob_min": 0.8889354467391968,
+      "prob_max": 0.9690179228782654,
+      "detections": 378,
+      "images_with_detection": 236,
+      "duration_sec": 5.276153104001423
+    },
+    {
+      "sample": "351_1_240506-160920",
+      "images": 236,
+      "prob_mean": 0.9363982568858034,
+      "prob_min": 0.8700721859931946,
+      "prob_max": 0.9632206559181213,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 2.953778795001199
+    },
+    {
+      "sample": "420_240506-160205",
+      "images": 236,
+      "prob_mean": 0.7174221203993942,
+      "prob_min": 0.0,
+      "prob_max": 0.9649363160133362,
+      "detections": 295,
+      "images_with_detection": 219,
+      "duration_sec": 3.0680984499995247
+    },
+    {
+      "sample": "426_1_240506-160058",
+      "images": 236,
+      "prob_mean": 0.9457573193614766,
+      "prob_min": 0.9391408562660217,
+      "prob_max": 0.9569252729415894,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 2.872568119999414
+    },
+    {
+      "sample": "491_240506-160846",
+      "images": 236,
+      "prob_mean": 0.8601946376137815,
+      "prob_min": 0.0,
+      "prob_max": 0.9688238501548767,
+      "detections": 350,
+      "images_with_detection": 229,
+      "duration_sec": 3.169711211001413
+    },
+    {
+      "sample": "503B_240506-160006",
+      "images": 236,
+      "prob_mean": 0.9674077529018208,
+      "prob_min": 0.958811342716217,
+      "prob_max": 0.9706089496612549,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 3.1854225850001967
+    },
+    {
+      "sample": "508_240506-160326",
+      "images": 236,
+      "prob_mean": 0.9402343931339555,
+      "prob_min": 0.873796284198761,
+      "prob_max": 0.9667612910270691,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 2.908059585000956
+    },
+    {
+      "sample": "534_240506-160510",
+      "images": 236,
+      "prob_mean": 0.9363299762293443,
+      "prob_min": 0.7344316840171814,
+      "prob_max": 0.9657539129257202,
+      "detections": 237,
+      "images_with_detection": 236,
+      "duration_sec": 2.9632530950002547
+    },
+    {
+      "sample": "537_240506-160651",
+      "images": 236,
+      "prob_mean": 0.8851767558667619,
+      "prob_min": 0.5356658697128296,
+      "prob_max": 0.9649931192398071,
+      "detections": 306,
+      "images_with_detection": 236,
+      "duration_sec": 3.114308850999805
+    },
+    {
+      "sample": "539_240506-160131",
+      "images": 236,
+      "prob_mean": 0.9195202919891325,
+      "prob_min": 0.7646684050559998,
+      "prob_max": 0.9691501259803772,
+      "detections": 266,
+      "images_with_detection": 236,
+      "duration_sec": 2.972330917000363
+    },
+    {
+      "sample": "548A_240506-160359",
+      "images": 236,
+      "prob_mean": 0.5095572453939309,
+      "prob_min": 0.0,
+      "prob_max": 0.9690787196159363,
+      "detections": 161,
+      "images_with_detection": 143,
+      "duration_sec": 2.6889042559996597
+    },
+    {
+      "sample": "549_240506-160758",
+      "images": 236,
+      "prob_mean": 0.6967268629094302,
+      "prob_min": 0.0,
+      "prob_max": 0.9675790071487427,
+      "detections": 243,
+      "images_with_detection": 197,
+      "duration_sec": 2.864364052999008
+    },
+    {
+      "sample": "553_240506-160724",
+      "images": 236,
+      "prob_mean": 0.3790703193616059,
+      "prob_min": 0.0,
+      "prob_max": 0.9590693116188049,
+      "detections": 171,
+      "images_with_detection": 99,
+      "duration_sec": 2.707293748000666
+    },
+    {
+      "sample": "554A_240506-160433",
+      "images": 236,
+      "prob_mean": 0.9708704370058189,
+      "prob_min": 0.9664145708084106,
+      "prob_max": 0.973127007484436,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 3.259270758000639
+    },
+    {
+      "sample": "559_240506-160951",
+      "images": 236,
+      "prob_mean": 0.9652032485957873,
+      "prob_min": 0.951595664024353,
+      "prob_max": 0.971050500869751,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 3.1761492579989863
+    },
+    {
+      "sample": "560B_240506-160251",
+      "images": 236,
+      "prob_mean": 0.9466415423963029,
+      "prob_min": 0.8675989508628845,
+      "prob_max": 0.9660902619361877,
+      "detections": 236,
+      "images_with_detection": 236,
+      "duration_sec": 2.9564298569985112
+    }
+  ],
+  "started_at": "2025-11-25 02:05:09",
+  "ended_at": "2025-11-25 02:06:00",
+  "duration_sec": 50.56166708300043
+}

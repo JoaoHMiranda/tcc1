@@ -1,0 +1,34 @@
+Modelo: /home/joaoh/programacao/TCC1/yolo/modelos/yolo12x_1/best.pt
+Fonte: /home/joaoh/programacao/TCC1/hsi_modificado/classificar
+Run: /home/joaoh/programacao/TCC1/resultados/best_1
+Início: 2025-11-25 02:05:09
+Término: 2025-11-25 02:06:00
+Duração (s): 50.56
+Total de imagens: 3776
+Imagens com detecção: 3483
+Probabilidade média (staphylococcus): 0.845
+Probabilidade mínima: 0.000
+Probabilidade máxima: 0.973
+
+Por amostra:
+- 3491B_240506-155911: imagens=236 detecoes=378 imgs_com_det=236 prob_med=0.940 prob_max=0.969 tempo_s=5.28
+- 351_1_240506-160920: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.936 prob_max=0.963 tempo_s=2.95
+- 420_240506-160205: imagens=236 detecoes=295 imgs_com_det=219 prob_med=0.717 prob_max=0.965 tempo_s=3.07
+- 426_1_240506-160058: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.946 prob_max=0.957 tempo_s=2.87
+- 491_240506-160846: imagens=236 detecoes=350 imgs_com_det=229 prob_med=0.860 prob_max=0.969 tempo_s=3.17
+- 503B_240506-160006: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.967 prob_max=0.971 tempo_s=3.19
+- 508_240506-160326: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.940 prob_max=0.967 tempo_s=2.91
+- 534_240506-160510: imagens=236 detecoes=237 imgs_com_det=236 prob_med=0.936 prob_max=0.966 tempo_s=2.96
+- 537_240506-160651: imagens=236 detecoes=306 imgs_com_det=236 prob_med=0.885 prob_max=0.965 tempo_s=3.11
+- 539_240506-160131: imagens=236 detecoes=266 imgs_com_det=236 prob_med=0.920 prob_max=0.969 tempo_s=2.97
+- 548A_240506-160359: imagens=236 detecoes=161 imgs_com_det=143 prob_med=0.510 prob_max=0.969 tempo_s=2.69
+- 549_240506-160758: imagens=236 detecoes=243 imgs_com_det=197 prob_med=0.697 prob_max=0.968 tempo_s=2.86
+- 553_240506-160724: imagens=236 detecoes=171 imgs_com_det=99 prob_med=0.379 prob_max=0.959 tempo_s=2.71
+- 554A_240506-160433: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.971 prob_max=0.973 tempo_s=3.26
+- 559_240506-160951: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.965 prob_max=0.971 tempo_s=3.18
+- 560B_240506-160251: imagens=236 detecoes=236 imgs_com_det=236 prob_med=0.947 prob_max=0.966 tempo_s=2.96
+
+Nota: probabilidade = maior confiança de detecção da classe staphylococcus em cada imagem.
+Resumo por amostra: /home/joaoh/programacao/TCC1/resultados/best_1/sample_summary.csv
+Detecções detalhadas: /home/joaoh/programacao/TCC1/resultados/best_1/detections.csv
+Probabilidades por imagem: /home/joaoh/programacao/TCC1/resultados/best_1/summary.csv

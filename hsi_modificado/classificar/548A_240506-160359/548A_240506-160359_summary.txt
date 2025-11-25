@@ -1,0 +1,12 @@
+Dataset: 548A_240506-160359
+Pasta origem: /home/joaoh/programacao/TCC1/hsi_original/classificar/548A_240506-160359
+Saída: hsi_modificado/classificar/548A_240506-160359
+
+Tempo por etapa:
+- Descoberta e memmap: 0.00 s
+- Geração de variações: 4.05 s
+- Exportação de relatórios: 0.01 s
+- Tempo total: 4.06 s
+
+Imagens geradas por variação:
+- correcao_snv_msc: 236

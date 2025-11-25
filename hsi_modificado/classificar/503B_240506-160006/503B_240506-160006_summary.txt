@@ -1,0 +1,12 @@
+Dataset: 503B_240506-160006
+Pasta origem: /home/joaoh/programacao/TCC1/hsi_original/classificar/503B_240506-160006
+Saída: hsi_modificado/classificar/503B_240506-160006
+
+Tempo por etapa:
+- Descoberta e memmap: 0.00 s
+- Geração de variações: 6.70 s
+- Exportação de relatórios: 0.01 s
+- Tempo total: 6.71 s
+
+Imagens geradas por variação:
+- correcao_snv_msc: 236
