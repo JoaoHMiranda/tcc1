@@ -4,8 +4,8 @@
   "output_root": "yolo",
   "classes": ["staphylococcus"],
   "imgsz": 256,
-  "epochs": 1,
-  "patience": 1,
+  "epochs": 1000,
+  "patience": 50,
   "batch": 16,
   "device": "0",
   "train_extra_args": {

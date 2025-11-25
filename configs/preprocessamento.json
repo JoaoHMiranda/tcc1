@@ -17,8 +17,8 @@
   },
   "trimming": {
     "description": "Recorte espectral: remove bandas no início e no fim.",
-    "left": 154,
-    "right": 100
+    "left": 10,
+    "right": 10
   },
   "dataset_filters": {
     "description": "Permite ativar/desativar o processamento por dataset quando houver múltiplos pares em global_paths.",
