@@ -20,7 +20,6 @@ class DatasetPathPair:
 class GlobalPathConfig:
     input_root: Optional[str] = None
     output_root: Optional[str] = None
-    models_root: Optional[str] = None
     dataset_pairs: List[DatasetPathPair] = field(default_factory=list)
 
 
@@ -53,7 +52,6 @@ def load_paths_config(path: Union[str, Path]) -> GlobalPathConfig:
     return GlobalPathConfig(
         input_root=data.get("input_root"),
         output_root=data.get("output_root"),
-        models_root=data.get("models_root"),
         dataset_pairs=dataset_pairs,
     )
 

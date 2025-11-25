@@ -1,4 +1,4 @@
-"""Utilities to scale and save pseudo-RGB combinations."""
+"""Utilities to scale and save RGB combinations."""
 
 from __future__ import annotations
 

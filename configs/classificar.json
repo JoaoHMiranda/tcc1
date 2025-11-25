@@ -1,7 +1,8 @@
 {
-  "model": "train-yolo/yolo12_runs/exp/weights/best.pt",
+  "model": "auto",
   "source_root": "hsi_modificado/classificar",
   "output_root": "resultados",
-  "imgsz": 1280,
-  "device": "0"
+  "imgsz": 256,
+  "device": "0",
+  "conf": 0.5
 }

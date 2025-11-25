@@ -1,48 +1,23 @@
 {
-  "enabled": true,
-  "out_root": "hsi_modificado",
-  "training_root": "train-yolo",
-  "model": "train-yolo/yolo12x.pt",
-  "pseudo_root": "pseudo_rgb",
-  "pseudo_method": "pca",
-  "annotations_root": "annotations/yolo12",
-  "datasets": ["doentes"],
+  "model": "yolo12x.pt",
+  "input_root": "hsi_modificado/doentes/",
+  "output_root": "yolo",
   "classes": ["staphylococcus"],
   "imgsz": 256,
-  "epochs": 200,
-  "patience": 50,
+  "epochs": 1,
+  "patience": 1,
   "batch": 16,
   "device": "0",
-  "run_validation": true,
-  "enhance_pseudo_rgb": true,
-  "split": {
-    "train": 0.7,
-    "val": 0.2,
-    "test": 0.1
-  },
-  "augmentations": {
-    "fliplr": 0.95,
-    "flipud": 0.7,
-    "degrees": 45.0,
-    "crop": 0.2
-  },
-  "offline_augmentation": {
-    "enabled": true,
-    "target_total_images": 600,
-    "per_sample": 200,
-    "output_method": "pca_augmented",
-    "source_method": "pca",
-    "include_source": true
-  },
   "train_extra_args": {
     "optimizer": "AdamW",
     "lr0": 0.001,
     "lrf": 0.05,
+    "verbose": true,
     "weight_decay": 0.001,
     "warmup_epochs": 10,
     "multi_scale": false,
     "cos_lr": true,
-    "workers": 1
-  },
-  "export_formats": ["onnx", "torchscript", "openvino", "coreml", "engine"]
+    "workers": 1,
+    "amp": false
+  }
 }

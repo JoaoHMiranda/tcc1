@@ -15,6 +15,11 @@
     "value": "hsi_modificado/doentes/",
     "description": "Pasta base onde a saída será criada; null usa ../ATCC relativo ao dataset."
   },
+  "trimming": {
+    "description": "Recorte espectral: remove bandas no início e no fim.",
+    "left": 154,
+    "right": 100
+  },
   "dataset_filters": {
     "description": "Permite ativar/desativar o processamento por dataset quando houver múltiplos pares em global_paths.",
     "value": {
@@ -24,40 +29,7 @@
     }
   },
   "toggles": {
-    "description": "Ativa/desativa cada variação e o salvamento dos PNGs correspondentes.",
-    "correcao": {
-      "description": "Composição RGB usando apenas a correção básica.",
-      "enabled": {
-        "value": true,
-        "description": "Processa esta variação (necessário para usar como fonte da mediana)."
-      },
-      "plot": {
-        "value": true,
-        "description": "Salva os PNGs/plots desta variação."
-      }
-    },
-    "correcao_snv": {
-      "description": "Imagens corrigidas por SNV.",
-      "enabled": {
-        "value": true,
-        "description": "Processa a etapa SNV."
-      },
-      "plot": {
-        "value": true,
-        "description": "Salva os PNGs gerados pelo SNV."
-      }
-    },
-    "correcao_msc": {
-      "description": "Imagens corrigidas por MSC.",
-      "enabled": {
-        "value": true,
-        "description": "Processa a etapa MSC."
-      },
-      "plot": {
-        "value": true,
-        "description": "Salva os PNGs do MSC."
-      }
-    },
+    "description": "Ativa/desativa a geração de PNGs e relatórios.",
     "correcao_snv_msc": {
       "description": "Imagens com SNV seguido de MSC.",
       "enabled": {
@@ -68,17 +40,10 @@
         "value": true,
         "description": "Salva os PNGs do SNV+MSC."
       }
-    }
-  },
-  "pseudo_rgb": {
-    "description": "Configura a geração dos pseudo-RGBs usados no treinamento YOLO.",
-    "enabled": true,
-    "active_method": "pca",
-    "output_dir_name": "pseudo_rgb",
-    "toggles": {
-      "manual": false,
-      "pca": true,
-      "linear": false
-    }
+    },
+    "export_metadata": {
+      "value": true,
+      "description": "Mantém a geração de band_metadata.csv e *_summary.txt."
+      }
   }
 }

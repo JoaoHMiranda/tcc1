@@ -1,0 +1,9 @@
+{
+  "model": "auto",
+  "data_yaml": "auto",
+  "imgsz": 256,
+  "batch": 16,
+  "device": "0",
+  "split": "test",
+  "output_root": "yolo/avaliacoes"
+}
