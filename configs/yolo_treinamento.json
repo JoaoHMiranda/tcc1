@@ -5,7 +5,7 @@
   "classes": ["staphylococcus"],
   "imgsz": 256,
   "epochs": 1000,
-  "patience": 50,
+  "patience": 100,
   "batch": 16,
   "device": "0",
   "train_extra_args": {
