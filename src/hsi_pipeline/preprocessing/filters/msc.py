@@ -12,6 +12,8 @@ from ...features.rgb import save_rgb_from_channels, scale_robust
 from ...processing.reflectance import ReflectanceBandProvider
 from ..utils import advance_progress, make_band_filename
 
+MSC_STRENGTH = 0.85  # escala <1.0 suaviza o efeito do MSC
+
 if TYPE_CHECKING:
     from ...config import VariantOutputSettings
     from ...pipeline.progress import PipelineProgress
@@ -48,12 +50,25 @@ def run_reflectance_msc_stage(
     images_generated = 0
     Bk = len(kept)
     for idx in range(Bk):
-        left_band = kept[max(0, idx - delta)]
-        right_band = kept[min(Bk - 1, idx + delta)]
+        left_band_idx = kept[max(0, idx - delta)]
+        mid_band_idx = kept[idx]
+        right_band_idx = kept[min(Bk - 1, idx + delta)]
+
+        left_raw = provider.get(left_band_idx)
+        mid_raw = provider.get(mid_band_idx)
+        right_raw = provider.get(right_band_idx)
+
+        left_corr = (left_raw - a_map_reflectance) / b_map_reflectance
+        mid_corr = (mid_raw - a_map_reflectance) / b_map_reflectance
+        right_corr = (right_raw - a_map_reflectance) / b_map_reflectance
+
+        left = left_raw + (left_corr - left_raw) * MSC_STRENGTH
+        mid = mid_raw + (mid_corr - mid_raw) * MSC_STRENGTH
+        right = right_raw + (right_corr - right_raw) * MSC_STRENGTH
         save_rgb_from_channels(
-            scale_robust((provider.get(left_band) - a_map_reflectance) / b_map_reflectance),
-            scale_robust((provider.get(kept[idx]) - a_map_reflectance) / b_map_reflectance),
-            scale_robust((provider.get(right_band) - a_map_reflectance) / b_map_reflectance),
+            scale_robust(left),
+            scale_robust(mid),
+            scale_robust(right),
             os.path.join(variant_dir, make_band_filename(idx, wavs_kept[idx])),
         )
         advance_progress(progress, "variants")
@@ -97,7 +112,8 @@ def run_snv_msc_stage(
     variant_enabled = bool(variant_dir and variant_setting and variant_setting.plot)
 
     for idx in range(Bk):
-        snv_msc = (snv_cache[idx] - a_map_SNV) / b_map_SNV
+        snv_msc_raw = (snv_cache[idx] - a_map_SNV) / b_map_SNV
+        snv_msc = snv_cache[idx] + (snv_msc_raw - snv_cache[idx]) * MSC_STRENGTH
         snv_msc_cache.append(snv_msc)
         if variant_enabled:
             left_idx = max(0, idx - delta)
@@ -106,7 +122,8 @@ def run_snv_msc_stage(
             if right_idx < len(snv_msc_cache):
                 right = snv_msc_cache[right_idx]
             else:
-                right = (snv_cache[right_idx] - a_map_SNV) / b_map_SNV
+                right_raw = (snv_cache[right_idx] - a_map_SNV) / b_map_SNV
+                right = snv_cache[right_idx] + (right_raw - snv_cache[right_idx]) * MSC_STRENGTH
             save_rgb_from_channels(
                 scale_robust(left),
                 scale_robust(snv_msc),

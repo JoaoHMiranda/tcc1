@@ -3,9 +3,9 @@
   "input_root": "hsi_modificado/doentes/",
   "output_root": "yolo",
   "classes": ["staphylococcus"],
-  "imgsz": 256,
-  "epochs": 1000,
-  "patience": 100,
+  "imgsz": 736,
+  "epochs": 100,
+  "patience": 10,
   "batch": 16,
   "device": "0",
   "train_extra_args": {
@@ -17,7 +17,7 @@
     "warmup_epochs": 10,
     "multi_scale": false,
     "cos_lr": true,
-    "workers": 1,
+    "workers": 8,
     "amp": false
   }
 }

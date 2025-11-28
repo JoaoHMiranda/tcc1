@@ -11,6 +11,8 @@ import numpy as np
 from ...features.rgb import save_rgb_from_channels, scale_robust
 from ..utils import advance_progress, make_band_filename
 
+SNV_STRENGTH = 0.85  # escala <1.0 diminui a intensidade da normalização
+
 if TYPE_CHECKING:
     from ...config import VariantOutputSettings
     from ...pipeline.progress import PipelineProgress
@@ -60,6 +62,7 @@ def run_snv_stage(
         Rb = reflectance_cache[idx]
         Dacc_R += Rb * ref_centered[idx]
         snv = (Rb - mean_px) / std_px
+        snv *= SNV_STRENGTH
         snv_cache.append(snv)
         left_idx = max(0, idx - delta)
         right_idx = min(Bk - 1, idx + delta)

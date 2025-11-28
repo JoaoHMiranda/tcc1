@@ -1,7 +1,7 @@
 {
   "model": "auto",
   "data_yaml": "auto",
-  "imgsz": 256,
+  "imgsz": 736,
   "batch": 16,
   "device": "0",
   "split": "test",

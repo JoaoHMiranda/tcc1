@@ -2,7 +2,7 @@
   "model": "auto",
   "source_root": "hsi_modificado/classificar",
   "output_root": "resultados",
-  "imgsz": 256,
+  "imgsz": 736,
   "device": "0",
   "conf": 0.5
 }
